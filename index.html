@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LP Support Chat</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    #chat { border: 1px solid #ccc; height: 400px; overflow-y: auto; padding: 10px; margin-bottom: 10px; }
+    .message { margin: 8px 0; }
+    .user { color: #0066cc; }
+    .bot { color: #333; }
+    input, button { padding: 10px; font-size: 16px; }
+    input { width: 70%; }
+    button { width: 25%; }
+  </style>
+</head>
+<body>
+  <h1>LP Support Chat</h1>
+  <div id="chat"></div>
+  
+  <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendMessage()">
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const chatDiv = document.getElementById('chat');
+    const input = document.getElementById('messageInput');
+
+    // TODO: Replace with your Function URL if needed
+    const FUNCTION_URL = 'https://lp-support-rag-api-fzcdgza2avb0ewf6.northcentralus-01.azurewebsites.net/api/Chat';
+
+    function addMessage(text, isUser) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+      msgDiv.innerHTML = `<strong>${isUser ? 'You' : 'Assistant'}:</strong> ${text}`;
+      chatDiv.appendChild(msgDiv);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage(message, true);
+      input.value = '';
+
+      try {
+        const response = await fetch(FUNCTION_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+        addMessage(data.reply || 'Sorry, I could not get a response.', false);
+      } catch (error) {
+        addMessage('Error connecting to the chatbot. Please try again later.', false);
+        console.error(error);
+      }
+    }
+
+    // Initial greeting
+    addMessage('Hello! How can I help you with the Learning Portal today?', false);
+  </script>
+</body>
+</html>
