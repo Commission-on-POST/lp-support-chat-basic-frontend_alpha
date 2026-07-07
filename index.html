@@ -69,7 +69,9 @@
 </head>
 <body>
   <h1>LP Support Chat</h1>
-  
+  <div id="loading" style="display: none; color: #666; font-style: italic; margin: 8px 0;">
+    Thinking...
+  </div>
   <div id="chat"></div>
   
   <!-- 5 Star Rating -->
@@ -125,33 +127,37 @@
       return text;
     }
 
-    async function sendMessage() {
-      const message = input.value.trim();
-      if (!message) return;
+async function sendMessage() {
+    const message = input.value.trim();
+    if (!message) return;
 
-      addMessage(message, true);
-      input.value = '';
+    addMessage(message, true);
+    input.value = '';
 
-      try {
+    // Show loading indicator
+    const loadingDiv = document.getElementById('loading');
+    loadingDiv.style.display = 'block';
+
+    try {
         const response = await fetch(FUNCTION_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: message })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
         });
 
         const data = await response.json();
         const replyText = data.reply || 'Sorry, I could not get a response.';
         addMessage(replyText, false);
-
-        // Add feedback prompt after bot response
         addFeedbackPrompt();
 
-      } catch (error) {
+    } catch (error) {
         addMessage('Error connecting to the chatbot. Please try again later.', false);
         console.error(error);
-      }
+    } finally {
+        // Hide loading indicator
+        loadingDiv.style.display = 'none';
     }
-
+}
     function addFeedbackPrompt() {
       const feedbackDiv = document.createElement('div');
       feedbackDiv.className = 'feedback';
