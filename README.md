@@ -11,6 +11,7 @@ This single page frontend app was created to support a major update to the LP As
 7.	This new front-end application (i.e., an Azure Static Web App) was created to test all of the above with a UI mock-up for user review. I put in some non-working UI elements for feedback, rating, and resolution options. (Reference and consider these ideas for a Code3 update). 
 
 This repo also contains the training data in .MD file format, which will be uploaded in Azure according to this workflow:
+
 <img width="977" height="354" alt="TrainingDataMaintenanceWorkflow" src="https://github.com/user-attachments/assets/47827fe0-2c89-4ff6-b954-5d7fdee0a2ae" />
 
 This repo also contains a copy of the back-end app code (Javascript) used in Azure. This is just for reference.
