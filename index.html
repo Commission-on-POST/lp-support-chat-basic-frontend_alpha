@@ -22,10 +22,28 @@
       margin-bottom: 10px;
       border-radius: 8px;
     }
-    .message {
-      margin: 12px 0;
-      line-height: 1.5;
-    }
+.message {
+    margin: 10px 0;
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 80%;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.user {
+    background-color: #d6eaff;     /* Light blue background */
+    color: #003366;
+    margin-left: auto;             /* Align to the right */
+    border-bottom-right-radius: 4px;
+}
+
+.bot {
+    background-color: #f1f1f1;     /* Light gray for assistant */
+    color: #333;
+    margin-right: auto;            /* Align to the left */
+    border-bottom-left-radius: 4px;
+}
     .user { color: #0066cc; }
     .bot { color: #333; }
     .feedback {
@@ -97,24 +115,24 @@
     const input = document.getElementById('messageInput');
     const FUNCTION_URL = 'https://lp-support-rag-api-fzcdgza2avb0ewf6.northcentralus-01.azurewebsites.net/api/Chat';
 
-    function addMessage(text, isUser) {
-      const msgDiv = document.createElement('div');
-      msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-      
-      // Make links, emails, and phones clickable
-      const formattedText = formatText(text);
-      msgDiv.innerHTML = `<strong>${isUser ? 'You' : 'Assistant'}:</strong> <span style="white-space: pre-wrap;">${formattedText}</span>`;
-      
-      chatDiv.appendChild(msgDiv);
-      chatDiv.scrollTop = chatDiv.scrollHeight;
+function addMessage(text, isUser) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+    
+    // Format links, emails, phones + preserve line breaks
+    const formattedText = formatText(text);
+    msgDiv.innerHTML = `<span style="white-space: pre-wrap;">${formattedText}</span>`;
+    
+    chatDiv.appendChild(msgDiv);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
 
-      // Add extra spacing after bot responses
-      if (!isUser) {
+    // Add extra spacing after assistant responses
+    if (!isUser) {
         const spacer = document.createElement('div');
-        spacer.style.height = '12px';
+        spacer.style.height = '8px';
         chatDiv.appendChild(spacer);
-      }
     }
+}
 
     // Make links, emails, and phone numbers clickable
     function formatText(text) {
