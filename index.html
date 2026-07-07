@@ -5,36 +5,124 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LP Support Chat</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-    #chat { border: 1px solid #ccc; height: 400px; overflow-y: auto; padding: 10px; margin-bottom: 10px; }
-    .message { margin: 8px 0; }
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 { color: #003366; }
+    #chat {
+      border: 1px solid #ccc;
+      height: 450px;
+      overflow-y: auto;
+      padding: 15px;
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+    .message {
+      margin: 12px 0;
+      line-height: 1.5;
+    }
     .user { color: #0066cc; }
     .bot { color: #333; }
-    input, button { padding: 10px; font-size: 16px; }
+    .feedback {
+      color: #666;
+      font-size: 0.9em;
+      margin-top: 4px;
+    }
+    .feedback a {
+      color: #0066cc;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
     input { width: 70%; }
     button { width: 25%; }
+    
+    /* Star Rating */
+    .rating {
+      margin: 15px 0;
+      font-size: 1.5em;
+    }
+    .star {
+      color: #ccc;
+      cursor: pointer;
+    }
+    .star:hover,
+    .star.active {
+      color: #ffc107;
+    }
+    
+    .feedback-link {
+      margin-top: 20px;
+      display: block;
+      color: #0066cc;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <h1>LP Support Chat</h1>
+  
   <div id="chat"></div>
   
+  <!-- 5 Star Rating -->
+  <div class="rating">
+    Rate your experience: 
+    <span class="star" data-value="1">★</span>
+    <span class="star" data-value="2">★</span>
+    <span class="star" data-value="3">★</span>
+    <span class="star" data-value="4">★</span>
+    <span class="star" data-value="5">★</span>
+  </div>
+
   <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendMessage()">
   <button onclick="sendMessage()">Send</button>
+
+  <!-- Send Feedback Link -->
+  <a href="#" class="feedback-link" onclick="alert('Thank you! Feedback feature coming soon.'); return false;">
+    Send us feedback
+  </a>
 
   <script>
     const chatDiv = document.getElementById('chat');
     const input = document.getElementById('messageInput');
-
-    // TODO: Replace with your Function URL if needed
     const FUNCTION_URL = 'https://lp-support-rag-api-fzcdgza2avb0ewf6.northcentralus-01.azurewebsites.net/api/Chat';
 
     function addMessage(text, isUser) {
       const msgDiv = document.createElement('div');
       msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-      msgDiv.innerHTML = `<strong>${isUser ? 'You' : 'Assistant'}:</strong> ${text.replace(/\n/g, '<br>')}`;
+      
+      // Make links, emails, and phones clickable
+      const formattedText = formatText(text);
+      msgDiv.innerHTML = `<strong>${isUser ? 'You' : 'Assistant'}:</strong> <span style="white-space: pre-wrap;">${formattedText}</span>`;
+      
       chatDiv.appendChild(msgDiv);
       chatDiv.scrollTop = chatDiv.scrollHeight;
+
+      // Add extra spacing after bot responses
+      if (!isUser) {
+        const spacer = document.createElement('div');
+        spacer.style.height = '12px';
+        chatDiv.appendChild(spacer);
+      }
+    }
+
+    // Make links, emails, and phone numbers clickable
+    function formatText(text) {
+      // URLs
+      text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+      // Emails
+      text = text.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1">$1</a>');
+      // Phone numbers (basic US format)
+      text = text.replace(/(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})/g, '<a href="tel:$1">$1</a>');
+      return text;
     }
 
     async function sendMessage() {
@@ -52,12 +140,48 @@
         });
 
         const data = await response.json();
-        addMessage(data.reply || 'Sorry, I could not get a response.', false);
+        const replyText = data.reply || 'Sorry, I could not get a response.';
+        addMessage(replyText, false);
+
+        // Add feedback prompt after bot response
+        addFeedbackPrompt();
+
       } catch (error) {
         addMessage('Error connecting to the chatbot. Please try again later.', false);
         console.error(error);
       }
     }
+
+    function addFeedbackPrompt() {
+      const feedbackDiv = document.createElement('div');
+      feedbackDiv.className = 'feedback';
+      feedbackDiv.innerHTML = `
+        Did this answer your question? 
+        <a onclick="handleFeedback(true, this)">Yes</a> | 
+        <a onclick="handleFeedback(false, this)">No</a>
+      `;
+      chatDiv.appendChild(feedbackDiv);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+
+    function handleFeedback(isPositive, element) {
+      const parent = element.parentElement;
+      parent.innerHTML = `Thank you for the feedback. Can I assist you with anything else?`;
+      
+      // Optional: You can add logic here later to send feedback to a backend
+    }
+
+    // Star Rating (non-functional for now)
+    document.querySelectorAll('.star').forEach(star => {
+      star.addEventListener('click', () => {
+        const value = star.getAttribute('data-value');
+        document.querySelectorAll('.star').forEach(s => {
+          s.classList.toggle('active', s.getAttribute('data-value') <= value);
+        });
+        // TODO: Send rating to backend later
+        console.log('User rated:', value);
+      });
+    });
 
     // Initial greeting
     addMessage('Hello! How can I help you with the Learning Portal today?', false);
