@@ -1,0 +1,502 @@
+# LP Assistant Training Data
+
+## Purpose and Use
+
+This file is intended as training/reference content for a Learning Portal support chatbot.
+
+- Keep responses focused on California POST Learning Portal topics.
+- Use the FAQ responses as preferred answer patterns.
+- Preserve support handoff details (phone/email/forms/links) when relevant.
+- If a request is outside scope (for example, general coding help), redirect users back to Learning Portal support topics.
+- If uncertain, provide the best known official contact path rather than guessing.
+
+## FAQ
+
+### Does the LP FIRST AID course meet the PC 13518 mandate?
+**Answer:** Yes. For more information regarding Learning Portal courses that meet mandates, go to: [Learning Portal Training that Meets Mandates](https://post.ca.gov/Learning-Portal-Training-that-Meets-Mandates).
+
+### What exactly does the Domestic Violence Response Update course cover?
+**Answer:** The course outline is posted on the [POST Multimedia Products webpage](https://post.ca.gov/POST-Multimedia-Products).
+
+### We are putting on a Racial Identity Profiling course and would like to know more about that course on the Portal.
+**Answer:** The course outline is posted on the [POST Multimedia Products webpage](https://post.ca.gov/POST-Multimedia-Products). Please contact Rayanne at [rogers.rayanne@post.ca.gov](mailto:rogers.rayanne@post.ca.gov) for additional questions.
+
+### SB 978 / GC 7920 requires our agency to post training materials on our website. We use a lot of your videos. Can I get copies for our website?
+**Answer:** Yes. You can download copies from the [POST Multimedia Products webpage](https://post.ca.gov/POST-Multimedia-Products).
+
+### Do we need to fill out the attestation form for the Vehicle Pursuit Policy course, even though I completed the Learning Portal course?
+**Answer:** Agencies must provide all peace officers with a copy of the agency pursuit policy. Peace officers must sign an SB 719 Pursuit Policy Training Attestation form that states they have "received, read, and understand" the agency pursuit policy. The agency must retain this form. Please do not send attestation forms to POST. For more information, go to: [Vehicle Pursuit Guidelines FAQs](https://post.ca.gov/Vehicle-Pursuit-Guidelines-FAQs).
+
+### I need the certificate for the Search Warrant course I took on the Portal.
+**Answer:** All completed course certificates should be in the **CERTIFICATES** area of your Portal Dashboard after signing in. Look for the download icon. If you cannot find it, please submit a ticket to LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### My course is not completing.
+**Answer:** The course can get stuck for various reasons.
+
+Try the following:
+
+- Close your browser and clear your browsing history before logging in again.
+- Change your default pop-ups and redirects settings. Choose the option: sites can send pop-ups and use redirects.
+- Check your default font size and ensure that it is set to **Medium (recommended)**.
+- Consider switching browsers. For example, if you have been using Chrome, switch to Firefox or Edge (and vice versa).
+- If you open a section or module, make some progress in it before exiting. Sometimes no activity after opening a module causes the service to halt.
+- If you are using a mobile device like a Toughbook, try using a desktop device. There may be a compatibility or network capacity issue.
+
+If this does not resolve your issue, contact us:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+If the problem persists, please send a full screenshot and the exact steps that led to the issue.
+
+
+### After I log in, when I click on a course, it gives me an error message.
+**Answer:** If you are having trouble accessing your course due to a Blackboard error message, your account might have been archived. Please contact your Training Manager to unarchive your account, or submit a help desk ticket to LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### We have a duplicate account. Can you please delete one?
+**Answer:** Please submit a ticket to LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### How do we remove users who are no longer part of our agency?
+**Answer:** We do not delete users, but you can archive them and they will not show in your list of Learners by default. Optionally, you can remove your agency affiliation from the user's account, but this will make it so you can no longer see any of their records in the Learning Portal. Check the Portal Tutorials and LP Updates webpage for further instructions, or submit a help desk ticket to LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### I cannot link my POST ID to my POST PASS.
+**Answer:** Please contact EDI support at [EDI@post.ca.gov](mailto:edi@post.ca.gov) or call [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872). 
+
+### I am trying to access Vehicle Pursuit Policy, but I get a "Policy Not Found" issue.
+**Answer:** Please instruct your agency to enter its policy in the Vehicle Pursuit Policy Customization Module. Your training manager is usually the local LP Administrator and has access to this tool. If the problem persists, submit a help desk ticket to LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### I am in the Vehicle Pursuit Policy course and trying to do the drag-and-drop portion, but it is not working.
+**Answer:** We understand that the drag-and-drop in the "Who Does What?" module can be buggy. Try the following:
+
+- Use Firefox to run the course.
+- If using Chrome or Edge, zoom to 150% in the course.
+- Drag slightly above or below the target area.
+- Use full-screen mode. Drag-and-drop zones are affected by screen zoom and display scaling.
+- Keep trying until it binds. You may need to find a "sweet spot" for drop placement.
+
+If the problem persists, send a full screenshot and the steps that led to the issue.
+
+### I am a non-sworn employee of my agency and have been tasked to update our Vehicle Pursuit Policy. How can I get the Customization Module assigned to me?
+**Answer:** Currently, non-sworn officers (Non-Peace Officers) cannot edit the Vehicle Pursuit Policy Customization module or take the Vehicle Pursuit Policy course. Without a Notice of Appointment (Attestation of Employment) in EDI, the Vehicle Pursuit Policy module cannot verify agency affiliation, so agency-specific policy access is unavailable. Please have your Lieutenant or Commander submit a **POST Form 2-339 Learning Portal Admin Request** and become a Learning Portal Admin. Vehicle Pursuit Policy customization updates must be completed through that admin account.
+
+### I am trying to take the Vehicle Pursuit Policy course, but it is not letting me in.
+**Answer:** Ensure that you are a sworn officer and that your agency has customized the Vehicle Pursuit Policy course based on your agency policy. Check with your training manager.
+
+### My course completion date on my EDI/POST Profile is wrong. Can you fix this?
+**Answer:** Please send the actual date you finished the course. We will research and make any necessary updates. Submit your request to LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### How do I become an Exam Proctor?
+**Answer:** For information on eligibility for PROCTOR TRAINING, contact:
+
+- Melani Singley: [melani.singley@post.ca.gov](mailto:melani.singley@post.ca.gov), [(916) 227-4258](tel:+19162274258) (Phone E164: +19162274258)
+- Strategic Communications and Research: [passhelp@post.ca.gov](mailto:passhelp@post.ca.gov), [(916) 227-4258](tel:+19162274258) (Phone E164: +19162274258)
+
+### Where can I get information about the Psychological Screening Exam?
+**Answer:** For information or assistance with the Psychological Screening Exam, contact Strategic Communications Research Bureau:
+
+- Melani Singley: [(916) 227-4258](tel:+19162274258) (Phone E164: +19162274258), [melani.singley@post.ca.gov](mailto:melani.singley@post.ca.gov)
+- Kelli Surawski: [(916) 894-9523](tel:+19168949523) (Phone E164: +19168949523), [kelli.surawski@post.ca.gov](mailto:kelli.surawski@post.ca.gov)
+
+### My name has changed and needs to be updated. What should I do?
+**Answer:** For name corrections or changes, email [EDI@post.ca.gov](mailto:edi@post.ca.gov). They will advise what documentation is required, process the change, and notify you when completed.
+
+### I watched a bunch of videos and only some are showing on my EDI profile.
+**Answer:** Some Learning Portal products transfer credit automatically to EDI when completed. Others require facilitation by your agency and submission of an EDI roster. These are marked on the Portal in our Training Products catalog. Click Register for Courses and exam each information card. If you need assistance, please contact LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### Where can I get POST Form 2-339?
+**Answer:** You can access POST Form 2-339 (Learning Portal Admin Request form) here: [POST Form 2-339](https://post.ca.gov/portals/0/post_docs/publications/2-339.pdf).
+
+This form is used to request the Learning Portal Administrator role. LP Administrators have additional administrative functionality and access in the Learning Portal. Typically, the agency training manager is designated as the LP Administrator.
+
+For additional help, contact LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### What is a POST ID?
+**Answer:** A POST ID is a unique identifier issued to individuals who have completed POST-certified training in California's POST system. It links your training records and certifications to your POST profile.
+
+Key points:
+
+1. Identification: Uniquely identifies an individual in the POST training system.
+2. Access to Services: Supports access to POST services, including the Learning Portal.
+3. Verification: Used by agencies and training managers to verify course completion and certifications.
+4. Record Linkage: Connects all completed training to your POST database profile.
+5. POST ID Creation/Recovery: If you are unsure of your POST ID, contact your agency training manager or PASS Help Desk.
+
+For assistance, contact PASS Help Desk:
+
+- PASS Help Desk Phone: [(916) 227-4357](tel:+19162274357) (Phone E164: +19162274357) or [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872), 
+- PASS Help Desk Email: [PassHelp@post.ca.gov](mailto:passhelp@post.ca.gov)
+
+### What is EDI?
+**Answer:** EDI stands for **Electronic Data Interchange**. In the California POST context, EDI is used to exchange training data among agencies, training providers, and the POST database.
+
+Key points:
+
+1. Data Exchange: Submits and updates training data, certifications, and rosters.
+2. Training Rosters: Used by agencies and training managers to submit course rosters.
+3. Verification/Compliance: Supports verification of completed training and mandate compliance.
+4. Learning Portal Integration: Integrates with the Learning Portal for data transfer consistency.
+5. Support: Contact PASS Help Desk for technical support.
+
+For assistance, contact PASS Help Desk:
+
+- PASS Help Desk Phone: [(916) 227-4357](tel:+19162274357) (Phone E164: +19162274357) or [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872), 
+- PASS Help Desk Email: [PassHelp@post.ca.gov](mailto:passhelp@post.ca.gov)
+
+### What is POST PASS?
+**Answer:** POST PASS (**POST Authentication and Secure Services**) is a single sign-on system for POST services, including the Learning Portal.
+
+Key points:
+
+1. Single Sign-On: One login for multiple POST systems.
+2. User Account: Your PASS username and password access LP, EDI, and other services.
+3. Linked POST ID: Linking your POST ID helps keep your records accurate.
+4. Training Access: Supports access to POST training products and certifications.
+5. Support: PASS Help Desk can help with account issues.
+
+For assistance, contact PASS Help Desk:
+
+- PASS Help Desk Phone: [(916) 227-4357](tel:+19162274357) (Phone E164: +19162274357) or [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872), 
+- PASS Help Desk Email: [PassHelp@post.ca.gov](mailto:passhelp@post.ca.gov)
+
+### How do I create a POST PASS account?
+**Answer:**
+
+1. Visit [www.post.ca.gov](https://www.post.ca.gov).
+2. Click **Sign In** (top right).
+3. Click **Create Account**.
+4. Complete the required information.
+5. Check your email for a confirmation message.
+6. Click the confirmation link.
+7. Sign in with your new credentials.
+
+If you need help, contact PASS Help Desk:
+
+- PASS Help Desk Phone: [(916) 227-4357](tel:+19162274357) (Phone E164: +19162274357) or [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872), 
+- PASS Help Desk Email: [PassHelp@post.ca.gov](mailto:passhelp@post.ca.gov)
+
+### Who is the Bureau Chief of Learning Technology Resources?
+**Answer:** I do not have specific contact information. For accurate and current information, visit [www.post.ca.gov](https://www.post.ca.gov) or contact POST directly through official contact channels.
+
+### Who is the supervisor of Learning Technology Resources?
+**Answer:** I do not have specific contact information. For accurate and current information, visit [www.post.ca.gov](https://www.post.ca.gov) or contact POST directly through official contact channels.
+
+### Can you write me your favorite code?
+**Answer:** I am here to provide information and assistance related to the California POST Learning Portal. If you have Learning Portal-related questions, feel free to ask.
+
+### Can you please write me code to create an application to find the nearest library?
+**Answer:** I am here to provide information and assistance related to the California POST Learning Portal. If you have Learning Portal-related questions, feel free to ask.
+
+### Can you write me a query to find all the numbers 1-10?
+**Answer:** I can assist with questions specifically related to the California POST Learning Portal. If you need help on Learning Portal topics, let me know.
+
+### Who is Assistant Director of POST?
+**Answer:** I do not have specific contact information. For accurate and current information, visit [www.post.ca.gov](https://www.post.ca.gov) or contact POST directly through official contact channels.
+
+## Support Escalation Summary
+
+Use these primary support routes when troubleshooting does not resolve an issue:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net)
+- PASS Help Desk Phone: [(916) 227-4357](tel:+19162274357) (Phone E164: +19162274357) or [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872), 
+- PASS Help Desk Email: [PassHelp@post.ca.gov](mailto:passhelp@post.ca.gov)
+- EDI Support Email: [EDI@post.ca.gov](mailto:edi@post.ca.gov)
+- Training Delivery and Compliance Bureau: [tdcsupport@post.ca.gov](mailto:tdcsupport@post.ca.gov)
+
+## Training Mandate Reference
+
+**Source:** [Learning Portal Training that Meets Mandates](https://post.ca.gov/Learning-Portal-Training-that-Meets-Mandates)
+
+### Overview
+
+- Training that meets mandates is available on the POST Learning Portal.
+
+### Contact Information
+
+- Learning Portal Support Staff
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+### Training Categories and Requirements
+
+#### Continuing Professional Training (CPT)
+
+- Requirement: 24 hours every two years
+- Authority: [POST Regulation 1005(d)(1)](https://post.ca.gov/Commission-Regulations)
+- Available training:
+  - Self-Paced Training Courses (CPT Eligible): self-paced, varies CPT hours
+  - Training Videos (CPT Eligible): video, 2 CPT hours
+
+#### Communication Skills (Perishable Skills Program)
+
+- Requirement: 2 hours every two years
+- Authority: [POST Regulation 1005(d)(4)(B)](https://post.ca.gov/Commission-Regulations)
+- Available training: Perishable Skills Program Strategic Communications (self-paced, 4 CPT hours)
+
+#### Domestic Violence Complaints
+
+- Requirement: 2 hours every two years (for in-service patrol officers below the rank of supervisor)
+- Authority:
+  - [Penal Code 13519](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13519)
+  - [POST Regulation 1081](https://post.ca.gov/Commission-Regulations)
+- Available training: Domestic Violence Response Update (self-paced, 2 CPT hours)
+
+#### Elder/Dependent Adult Abuse
+
+- Requirement: 2 hours within 18 months of field/investigative assignment (supervisory level and below)
+- Authority:
+  - [Penal Code 13515](http://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13515)
+  - [POST Regulation 1081](https://post.ca.gov/Commission-Regulations)
+- Available training: Elder and Dependent Adult Abuse (not self-paced, video, 2 CPT hours)
+
+#### First Aid/CPR/AED Refresher Training
+
+- Requirement: 8 hours every two years
+- Authority:
+  - [Penal Code 13518](http://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13518)
+- Available training: First Aid/CPR/AED Retraining (self-paced, 8 CPT hours)
+
+#### Hate Crimes: Identification and Investigation
+
+- Requirement: 2 hours
+- Authority:
+  - [Penal Code 13519.6](https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=13519.6.&lawCode=PEN)
+- Available training: Hate Crimes: Identification and Investigation (not self-paced, video, 2 CPT hours)
+
+#### Hearsay Testimony (Proposition 115)
+
+- Requirement: For peace officers with fewer than 5 years of experience, or those who completed the Basic Course before July 1, 2007
+- More information: [Proposition 115 Peace Officer Hearsay Testimony](https://post.ca.gov/Proposition-115-Peace-Officer-Hearsay-Testimony-Pursuant-to-the-Crime-Victims-Justice-Reform-Act)
+- Authority:
+  - [Penal Code 872](http://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=872)
+- Available training: Hearsay Testimony (not self-paced, video, 2 CPT hours)
+
+#### High-Speed Vehicle Pursuit Training
+
+- Requirement: 1 hour annually
+- Authority:
+  - [Penal Code 13519.8](http://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13519.8)
+  - [POST Regulation 1081](https://post.ca.gov/Commission-Regulations)
+- Available training: Vehicle Pursuit Policy Update Training (self-paced, 2 CPT hours)
+
+#### Human Trafficking
+
+- Requirement: 2 hours
+- Authority:
+  - [Penal Code 13519.14](http://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13519.14)
+  - [POST Regulation 1081](https://post.ca.gov/Commission-Regulations)
+- Available training: Human Trafficking (not self-paced, video, 2 CPT hours)
+
+#### Racial and Identity Profiling Update
+
+- Requirement: 2 hours every five years
+- Authority:
+  - [Penal Code 13519.4(i)](http://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13519.4)
+  - [POST Regulation 1081](https://post.ca.gov/Commission-Regulations)
+  - [POST Regulation 1070](https://post.ca.gov/Commission-Regulations)
+- Available training:
+  - Beyond Bias: Racial and Identity Profiling Update (self-paced, 4 CPT hours)
+  - Bias and Racial Profiling (certified instructor required; not self-paced, video, 2 CPT hours)
+
+#### Terrorism
+
+- Requirement: 8 hours (for peace officers and first responders at lieutenant level and below)
+- Authority:
+  - [Penal Code 13519.12](http://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=13519.12)
+  - [POST Regulation 1081](https://post.ca.gov/Commission-Regulations)
+- Available training: Law Enforcement Response to Terrorism (self-paced, 8 CPT hours)
+
+## Learning Portal Updates (Source: LP Updates Page)
+
+**Source:** [Learning Portal Status Update](https://post.ca.gov/Learning-Portal-Status-Update)
+
+### CPT Cycle (1/1/2025 - 12/31/2026)
+
+- Completed LP courses provide CPT for this cycle (see [Regulation 1005](https://post.ca.gov/Commission-Regulations)).
+- Courses meet many mandates, including 24-hour CPT and perishable skills requirements.
+- Many completed courses automatically update your official POST Training Profile in [EDI](https://edinet.post.ca.gov/).
+- Some videos require agency facilitation and an [EDI roster submission](https://post.ca.gov/portals/0/post_docs/training/TrainingVideoCourseRosters_Instructions.pdf).
+- To find courses: sign in to LP and click **Register for Courses** on your Dashboard.
+- To take courses: use the **Active Courses** box on your Dashboard.
+- To drop a course: click **Drop Course** in the menu and select the course.
+
+### Training Products Released This CPT Cycle
+
+Refer to the [Learning Portal Status Update](https://post.ca.gov/Learning-Portal-Status-Update).
+
+### Vehicle Pursuit Policy Update Course
+
+- POST relaunched the Vehicle Pursuit Policy Update Course and Customization Module.
+- The course is 2 CPT credits and meets the annual high-speed vehicle pursuit mandate (PC 13519.8).
+- More information: [Vehicle Pursuit Guidelines FAQs](https://post.ca.gov/Vehicle-Pursuit-Guidelines-FAQs).
+- Course access is limited to sworn officers and dispatchers.
+- The customization module allows agencies to align course feedback to agency pursuit policy.
+- There are 58 customization questions.
+- Customization must be completed by a sworn officer.
+
+Relaunch details:
+
+- The customization module is assigned to all current LP Administrators upon relaunch.
+- It is automatically assigned to future LP Administrators.
+- Customizations from before June 2023 are restored.
+- Users review customizations, upload a PDF of agency policy, then publish.
+- Course registration is available, but learners cannot start until customizations are published.
+
+### Enhancements
+
+Recent enhancements:
+
+Refer to the [Learning Portal Status Update](https://post.ca.gov/Learning-Portal-Status-Update).
+
+
+### Access
+
+- Access is free to California law enforcement officers and dispatchers working for agencies in the California POST program.
+
+PASS and POST ID:
+
+- PASS provides one sign-in for POST online websites.
+- POST ID is a unique identifier for anyone who has taken POST-certified training.
+- You must create a PASS account and link it to your POST ID before signing in to the Learning Portal.
+- PASS prompts linking during sign-in if not already linked.
+- If you do not know your POST ID, contact your agency training manager.
+- For PASS support or POST ID creation, contact PASS Help Desk:
+- PASS Help Desk Phone: [(916) 227-4357](tel:+19162274357) (Phone E164: +19162274357) or [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872), 
+- PASS Help Desk Email: [PassHelp@post.ca.gov](mailto:passhelp@post.ca.gov)
+
+LP Administrators:
+
+- LP Administrator is a special role with additional administrative functionality.
+- Agencies usually have at least one LP Administrator (often the training manager).
+- New training managers can request this role using [POST Form 2-339](https://post.ca.gov/portals/0/post_docs/publications/2-339.pdf).
+
+Non-Peace Officers:
+
+- LP Administrators can add civilian staff as Non-Peace Officer users if their work supports the agency.
+- Reference: [Bulletin 2012-07](https://post.ca.gov/Portals/0/post_docs/bulletin/2012-07.pdf).
+
+Non-POST Agencies:
+
+- Non-POST agencies can request Learning Portal access using the [Learning Portal Access Request Form](https://post.ca.gov/Learning-Portal-Access-Request-Form).
+
+### Tutorials
+
+See the Training Resources and Learning Path sections on the Learner Dashboard. For technical support, contact LP Support:
+
+- LP Support Phone: [(916) 970-4650](tel:+19169704650) (Phone E164: +19169704650; 8:00 AM to 5:00 PM weekdays)
+- LP Support Email: [support@postportal.atlassian.net](mailto:support@postportal.atlassian.net) (email anytime and include details)
+
+Check the [Learning Portal (LP) Updates page](https://post.ca.gov/Learning-Portal-Status-Update) regularly.
+
+### Download a Learner's Course Completion Certificate(s)
+
+- After signing in, switch to **MANAGER**.
+- Go to the learner account.
+- Click **Download Certificates** on the left.
+
+### Give Learners Access to Facilitated Courses
+
+- After signing in, switch to **MANAGER**.
+- Go to the learner account.
+- Click **Enroll in Section**.
+- Set term to **Ongoing**.
+- Select **POST Facilitated Courses**.
+- Select section and set start/end dates.
+
+### Run Learner Activity Reports
+
+- After signing in, switch to **MANAGER**.
+- Go to **Reports** > **Run Reports**.
+- Use any of the eleven reports that begin with **Learner Activity**.
+- Reports export learner activity data to spreadsheet format for filtering/sorting.
+
+## Entering POST Training Video (Multimedia) Course Rosters into EDI
+
+- Many POST training videos are eligible for 2 CPT hours.
+- Courses requiring a roster are marked on the Learning Portal as requiring a POST Multimedia EDI roster.
+- These courses may be watched individually or facilitated in groups via Facilitated Courses.
+- Agency training managers should verify current certification status in the POST Course Catalog and/or EDI before presenting training.
+- Discontinued training videos are removed from the catalog and EDI.
+
+Roster submission steps:
+
+1. Log in to [EDI](https://edinet.post.ca.gov/home.aspx).
+2. Under **GENERAL QUICK LINKS**, select **Course Rosters**.
+3. Select **Enter Roster on Behalf of** and choose Agency/Presenter.
+4. Select **POST MULTI-MEDIA COURSE (Cert #29000)**.
+5. Select the presentation title (sortable A-Z).
+6. Follow prompts to complete the roster.
+
+Note: The **End Date** is the last date trainees viewed the training video.
+
+For more information about CPT credit, rosters, and EDI, contact the POST Training Delivery and Compliance Bureau: [tdcsupport@post.ca.gov](mailto:tdcsupport@post.ca.gov).
+
+## Facilitated Courses Explained
+
+### Facilitated Group Viewing
+
+- Each topic includes an overview, guides, and a segmented video (introduction, scenarios, related questions, and activities).
+- Facilitators can optionally show subject matter expert commentary after discussion.
+- A facilitator guide PDF is included for each topic.
+- Unless otherwise noted, anyone can facilitate these topics.
+- Material may be delivered in one session or over multiple days (for example, briefing or roll call).
+- Once delivered in full, the instructor/supervisor/training manager may [submit a completed training roster](https://post.ca.gov/portals/0/post_docs/training/TrainingVideoCourseRosters_Instructions.pdf) in EDI for CPT credit.
+
+## About First Aid Skills Demonstration
+
+- After online modules are complete, a skills demonstration is required for full credit.
+- Coordinate with your training manager.
+- After completing the demonstration, notify your training manager.
+- Open the **First Aid/CPR/AED Skills Demonstration** module in your course.
+- After passing, return to **Step 2: Demonstration Date Entry** and enter month/day/year.
+- You will receive a receipt for your records or to share with your training manager.
+- **Do not enter a date until you pass your skills demonstration.**
+
+## POST PASS (POST Authentication and Secure Services)
+
+**Technical Support:**
+
+- PASS Help Desk Phone: [(916) 227-4357](tel:+19162274357) (Phone E164: +19162274357) or [(877) 275-5872](tel:+18772755872) (Phone E164: +18772755872), 
+- PASS Help Desk Email: [PassHelp@post.ca.gov](mailto:passhelp@post.ca.gov)
+
+PASS is the preferred way to sign in to POST websites.
+
+1. PASS simplifies access to POST online services:
+   - Single username and password.
+2. PASS allows personalized information delivery:
+   - Users can optionally link POST IDs to PASS accounts for access to personal profile/CPT status and role-based messaging.
+3. PASS improves security:
+   - Based on industry standards and reduces multiple credential databases.
+
+### Create Your PASS Account
+
+1. Go to [www.post.ca.gov](https://www.post.ca.gov).
+2. Click **Sign In** at the top-right, then click **Create Account**.
+3. Fill out required information and create account.
+4. Check your email for confirmation.
+5. Click the confirmation link.
+6. Once confirmed, click **sign in to continue**.
