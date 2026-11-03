@@ -134,6 +134,26 @@
       padding: 0;
     }
 
+    .toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    #newChatButton {
+      background-color: #fff;
+      border: 1px solid #0056a6;
+      color: #0056a6;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 14px;
+    }
+
+    #newChatButton:hover,
+    #newChatButton:focus-visible {
+      background-color: #eef5ff;
+    }
+
     :focus-visible {
       outline: 3px solid #005fcc;
       outline-offset: 2px;
@@ -163,6 +183,9 @@
 <body>
   <main>
     <h1>LP Support Chat</h1>
+    <div class="toolbar">
+      <button id="newChatButton" type="button">New Chat</button>
+    </div>
     <div id="loading" role="status" aria-live="polite" hidden
       style="color: #666; font-style: italic; margin: 8px 0;">
       Thinking...
@@ -193,7 +216,15 @@
     const messageForm = document.getElementById('messageForm');
     const sendButton = document.getElementById('sendButton');
     const loadingDiv = document.getElementById('loading');
+    const newChatButton = document.getElementById('newChatButton');
     const FUNCTION_URL = 'https://lp-support-rag-api-fzcdgza2avb0ewf6.northcentralus-01.azurewebsites.net/api/Chat';
+
+    // Opaque, server-issued conversation key. Null means "no active chat yet".
+    let activeConversationId = null;
+
+    // Identifies the current chat thread so a late response from a chat that
+    // was replaced by "New Chat" cannot overwrite the active transcript/ID.
+    let activeChatToken = 0;
 
     function appendFormattedText(parent, text) {
       const linkPattern = /https?:\/\/[^\s<>"']+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/gi;
@@ -242,9 +273,37 @@
       chatDiv.scrollTop = chatDiv.scrollHeight;
     }
 
+    // Parses a fetch Response body defensively: gateways/platforms can return
+    // non-JSON error pages, so a failed JSON parse must not be treated as a crash.
+    async function readResponseBody(response) {
+      try {
+        return await response.json();
+      } catch {
+        return null;
+      }
+    }
+
+    function startNewChat() {
+      activeConversationId = null;
+      activeChatToken += 1;
+      chatDiv.innerHTML = '';
+      addMessage('Hello! How can I help you with the Learning Portal today?', false);
+      input.value = '';
+      // Reset any in-flight-request UI lockout from a chat this just replaced.
+      loadingDiv.hidden = true;
+      input.disabled = false;
+      sendButton.disabled = false;
+      input.focus();
+    }
+
     async function sendMessage() {
       const message = input.value.trim();
       if (!message || sendButton.disabled) return;
+
+      // Capture which chat this request belongs to. If "New Chat" is clicked
+      // before the response arrives, this token will no longer match the
+      // active one and the late response must not overwrite the new chat.
+      const chatToken = activeChatToken;
 
       addMessage(message, true);
       input.value = '';
@@ -253,30 +312,56 @@
       loadingDiv.hidden = false;
 
       try {
+        const body = activeConversationId
+          ? { message, conversationId: activeConversationId }
+          : { message };
+
         const response = await fetch(FUNCTION_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
+          body: JSON.stringify(body)
         });
 
-        if (!response.ok) {
-          throw new Error(`Chat request failed with status ${response.status}`);
+        const data = await readResponseBody(response);
+
+        if (chatToken !== activeChatToken) {
+          // The chat this request belonged to was replaced by "New Chat";
+          // discard this response instead of updating the new chat's state.
+          return;
         }
 
-        const data = await response.json();
-        const replyText = typeof data.reply === 'string' && data.reply.trim()
-          ? data.reply
-          : 'Sorry, I could not get a response.';
+        if (!response.ok) {
+          const errorMessage = typeof data?.error === 'string' && data.error
+            ? data.error
+            : `Chat request failed with status ${response.status}`;
+          throw new Error(errorMessage);
+        }
+
+        if (typeof data?.conversationId !== 'string' ||
+            !data.conversationId ||
+            typeof data?.reply !== 'string') {
+          throw new Error('Chat API returned an invalid success response.');
+        }
+
+        // Retain the server-issued conversationId so every later turn in this
+        // chat round-trips it; this is what keeps backend memory continuous.
+        activeConversationId = data.conversationId;
+
+        const replyText = data.reply.trim() ? data.reply : 'Sorry, I could not get a response.';
         addMessage(replyText, false);
         addFeedbackPrompt();
       } catch (error) {
-        addMessage('Sorry, the chatbot could not process your request. Please try again later.', false);
+        if (chatToken === activeChatToken) {
+          addMessage('Sorry, the chatbot could not process your request. Please try again later.', false);
+        }
         console.error('Chat request failed:', error);
       } finally {
-        loadingDiv.hidden = true;
-        input.disabled = false;
-        sendButton.disabled = false;
-        input.focus();
+        if (chatToken === activeChatToken) {
+          loadingDiv.hidden = true;
+          input.disabled = false;
+          sendButton.disabled = false;
+          input.focus();
+        }
       }
     }
 
@@ -323,6 +408,8 @@
     document.getElementById('sendFeedback').addEventListener('click', () => {
       alert('Thank you! Feedback feature coming soon.');
     });
+
+    newChatButton.addEventListener('click', startNewChat);
 
     addMessage('Hello! How can I help you with the Learning Portal today?', false);
   </script>
