@@ -5,15 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LP Assistant AI chatbot</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
       background-color: #f9f9f9;
+      color: #333;
     }
-    h1 { color: #003366; }
+
+    h1 {
+      color: #003366;
+    }
+
     #chat {
+      display: flex;
+      flex-direction: column;
       border: 1px solid #ccc;
       height: 450px;
       overflow-y: auto;
@@ -22,192 +33,297 @@
       margin-bottom: 10px;
       border-radius: 8px;
     }
-.message {
-    margin: 10px 0;
-    padding: 12px 16px;
-    border-radius: 18px;
-    max-width: 80%;
-    line-height: 1.5;
-    word-wrap: break-word;
-}
 
-.user {
-    background-color: #d6eaff;     /* Light blue background */
-    color: #003366;
-    margin-left: auto;             /* Align to the right */
-    border-bottom-right-radius: 4px;
-}
-
-.bot {
-    background-color: #f1f1f1;     /* Light gray for assistant */
-    color: #333;
-    margin-right: auto;            /* Align to the left */
-    border-bottom-left-radius: 4px;
-}
-    .user { color: #0066cc; }
-    .bot { color: #333; }
-    .feedback {
-      color: #666;
-      font-size: 0.9em;
-      margin-top: 4px;
+    .message {
+      width: fit-content;
+      margin: 10px 0;
+      padding: 12px 16px;
+      border-radius: 18px;
+      max-width: 85%;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
-    .feedback a {
-      color: #0066cc;
+
+    .message a {
+      overflow-wrap: anywhere;
+    }
+
+    .user {
+      background-color: #d6eaff;
+      color: #003366;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot {
+      background-color: #f1f1f1;
+      color: #333;
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+    }
+
+    .feedback {
+      color: #555;
+      font-size: 0.9em;
+      margin: 4px 0 12px;
+    }
+
+    .feedback button,
+    .feedback-link {
+      color: #0056a6;
       text-decoration: underline;
       cursor: pointer;
     }
-    input, button {
+
+    .feedback button {
+      padding: 0 3px;
+      border: 0;
+      background: transparent;
+      font-size: inherit;
+    }
+
+    .composer {
+      display: flex;
+      gap: 10px;
+    }
+
+    input,
+    button {
       padding: 10px;
       font-size: 16px;
     }
-    input { width: 70%; }
-    button { width: 25%; }
-    
-    /* Star Rating */
+
+    input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: wait;
+    }
+
     .rating {
       margin: 15px 0;
       font-size: 1.5em;
     }
+
     .star {
-      color: #ccc;
-      cursor: pointer;
+      padding: 0 2px;
+      border: 0;
+      background: transparent;
+      color: #777;
+      font-size: inherit;
     }
+
     .star:hover,
+    .star:focus-visible,
     .star.active {
-      color: #ffc107;
+      color: #8a5b00;
     }
-    
+
     .feedback-link {
       margin-top: 20px;
-      display: block;
-      color: #0066cc;
-      text-decoration: underline;
+      display: inline-block;
+      border: 0;
+      background: transparent;
+      padding: 0;
+    }
+
+    :focus-visible {
+      outline: 3px solid #005fcc;
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+
+      #chat {
+        height: min(60vh, 450px);
+        min-height: 280px;
+        padding: 12px;
+      }
+
+      .message {
+        max-width: 92%;
+      }
+
+      .composer {
+        gap: 8px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>LP Support Chat</h1>
-  <div id="loading" style="display: none; color: #666; font-style: italic; margin: 8px 0;">
-    Thinking...
-  </div>
-  <div id="chat"></div>
-  
-  <!-- 5 Star Rating -->
-  <div class="rating">
-    Rate your experience: 
-    <span class="star" data-value="1">★</span>
-    <span class="star" data-value="2">★</span>
-    <span class="star" data-value="3">★</span>
-    <span class="star" data-value="4">★</span>
-    <span class="star" data-value="5">★</span>
-  </div>
+  <main>
+    <h1>LP Support Chat</h1>
+    <div id="loading" role="status" aria-live="polite" hidden
+      style="color: #666; font-style: italic; margin: 8px 0;">
+      Thinking...
+    </div>
+    <div id="chat" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions"></div>
 
-  <input type="text" id="messageInput" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendMessage()">
-  <button onclick="sendMessage()">Send</button>
+    <div class="rating" role="group" aria-label="Rate your experience">
+      Rate your experience:
+      <button class="star" type="button" data-value="1" aria-label="1 star" aria-pressed="false">★</button>
+      <button class="star" type="button" data-value="2" aria-label="2 stars" aria-pressed="false">★</button>
+      <button class="star" type="button" data-value="3" aria-label="3 stars" aria-pressed="false">★</button>
+      <button class="star" type="button" data-value="4" aria-label="4 stars" aria-pressed="false">★</button>
+      <button class="star" type="button" data-value="5" aria-label="5 stars" aria-pressed="false">★</button>
+    </div>
 
-  <!-- Send Feedback Link -->
-  <a href="#" class="feedback-link" onclick="alert('Thank you! Feedback feature coming soon.'); return false;">
-    Send us feedback
-  </a>
+    <form id="messageForm" class="composer">
+      <input type="text" id="messageInput" placeholder="Type your message..."
+        aria-label="Type your message" autocomplete="off">
+      <button id="sendButton" type="submit">Send</button>
+    </form>
+
+    <button class="feedback-link" id="sendFeedback" type="button">Send us feedback</button>
+  </main>
 
   <script>
     const chatDiv = document.getElementById('chat');
     const input = document.getElementById('messageInput');
+    const messageForm = document.getElementById('messageForm');
+    const sendButton = document.getElementById('sendButton');
+    const loadingDiv = document.getElementById('loading');
     const FUNCTION_URL = 'https://lp-support-rag-api-fzcdgza2avb0ewf6.northcentralus-01.azurewebsites.net/api/Chat';
 
-function addMessage(text, isUser) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-    
-    // Format links, emails, phones + preserve line breaks
-    const formattedText = formatText(text);
-    msgDiv.innerHTML = `<span style="white-space: pre-wrap;">${formattedText}</span>`;
-    
-    chatDiv.appendChild(msgDiv);
-    chatDiv.scrollTop = chatDiv.scrollHeight;
+    function appendFormattedText(parent, text) {
+      const linkPattern = /https?:\/\/[^\s<>"']+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/gi;
+      let lastIndex = 0;
 
-    // Add extra spacing after assistant responses
-    if (!isUser) {
-        const spacer = document.createElement('div');
-        spacer.style.height = '8px';
-        chatDiv.appendChild(spacer);
+      for (const match of text.matchAll(linkPattern)) {
+        const value = match[0];
+        const start = match.index;
+        const trailingPunctuation = value.match(/[.,!?;:]+$/)?.[0] || '';
+        const linkText = value.slice(0, value.length - trailingPunctuation.length);
+
+        parent.appendChild(document.createTextNode(text.slice(lastIndex, start)));
+
+        if (linkText) {
+          const link = document.createElement('a');
+          link.textContent = linkText;
+
+          if (/^https?:\/\//i.test(linkText)) {
+            link.href = linkText;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+          } else if (linkText.includes('@')) {
+            link.href = `mailto:${linkText}`;
+          } else {
+            link.href = `tel:${linkText.replace(/[^\d+]/g, '')}`;
+          }
+
+          parent.appendChild(link);
+        }
+
+        if (trailingPunctuation) {
+          parent.appendChild(document.createTextNode(trailingPunctuation));
+        }
+
+        lastIndex = start + value.length;
+      }
+
+      parent.appendChild(document.createTextNode(text.slice(lastIndex)));
     }
-}
 
-    // Make links, emails, and phone numbers clickable
-    function formatText(text) {
-      // URLs
-      text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-      // Emails
-      text = text.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1">$1</a>');
-      // Phone numbers (basic US format)
-      text = text.replace(/(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})/g, '<a href="tel:$1">$1</a>');
-      return text;
+    function addMessage(text, isUser) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+      appendFormattedText(msgDiv, String(text));
+      chatDiv.appendChild(msgDiv);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
     }
 
-async function sendMessage() {
-    const message = input.value.trim();
-    if (!message) return;
+    async function sendMessage() {
+      const message = input.value.trim();
+      if (!message || sendButton.disabled) return;
 
-    addMessage(message, true);
-    input.value = '';
+      addMessage(message, true);
+      input.value = '';
+      input.disabled = true;
+      sendButton.disabled = true;
+      loadingDiv.hidden = false;
 
-    // Show loading indicator
-    const loadingDiv = document.getElementById('loading');
-    loadingDiv.style.display = 'block';
-
-    try {
+      try {
         const response = await fetch(FUNCTION_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
         });
 
+        if (!response.ok) {
+          throw new Error(`Chat request failed with status ${response.status}`);
+        }
+
         const data = await response.json();
-        const replyText = data.reply || 'Sorry, I could not get a response.';
+        const replyText = typeof data.reply === 'string' && data.reply.trim()
+          ? data.reply
+          : 'Sorry, I could not get a response.';
         addMessage(replyText, false);
         addFeedbackPrompt();
-
-    } catch (error) {
-        addMessage('Error connecting to the chatbot. Please try again later.', false);
-        console.error(error);
-    } finally {
-        // Hide loading indicator
-        loadingDiv.style.display = 'none';
+      } catch (error) {
+        addMessage('Sorry, the chatbot could not process your request. Please try again later.', false);
+        console.error('Chat request failed:', error);
+      } finally {
+        loadingDiv.hidden = true;
+        input.disabled = false;
+        sendButton.disabled = false;
+        input.focus();
+      }
     }
-}
+
     function addFeedbackPrompt() {
       const feedbackDiv = document.createElement('div');
       feedbackDiv.className = 'feedback';
-      feedbackDiv.innerHTML = `
-        Did this answer your question? 
-        <a onclick="handleFeedback(true, this)">Yes</a> | 
-        <a onclick="handleFeedback(false, this)">No</a>
-      `;
+      feedbackDiv.append('Did this answer your question? ');
+
+      for (const [index, label] of ['Yes', 'No'].entries()) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = label;
+        button.addEventListener('click', () => handleFeedback(feedbackDiv));
+        feedbackDiv.appendChild(button);
+
+        if (index === 0) feedbackDiv.append(' | ');
+      }
+
       chatDiv.appendChild(feedbackDiv);
       chatDiv.scrollTop = chatDiv.scrollHeight;
     }
 
-    function handleFeedback(isPositive, element) {
-      const parent = element.parentElement;
-      parent.innerHTML = `Thank you for the feedback. Can I assist you with anything else?`;
-      
-      // Optional: You can add logic here later to send feedback to a backend
+    function handleFeedback(feedbackDiv) {
+      feedbackDiv.textContent = 'Thank you for the feedback. Can I assist you with anything else?';
     }
 
-    // Star Rating (non-functional for now)
+    messageForm.addEventListener('submit', event => {
+      event.preventDefault();
+      sendMessage();
+    });
+
     document.querySelectorAll('.star').forEach(star => {
       star.addEventListener('click', () => {
-        const value = star.getAttribute('data-value');
-        document.querySelectorAll('.star').forEach(s => {
-          s.classList.toggle('active', s.getAttribute('data-value') <= value);
+        const value = Number(star.dataset.value);
+        document.querySelectorAll('.star').forEach(item => {
+          const isActive = Number(item.dataset.value) <= value;
+          item.classList.toggle('active', isActive);
+          item.setAttribute('aria-pressed', String(Number(item.dataset.value) === value));
         });
-        // TODO: Send rating to backend later
         console.log('User rated:', value);
       });
     });
 
-    // Initial greeting
+    document.getElementById('sendFeedback').addEventListener('click', () => {
+      alert('Thank you! Feedback feature coming soon.');
+    });
+
     addMessage('Hello! How can I help you with the Learning Portal today?', false);
   </script>
 </body>
