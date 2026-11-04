@@ -134,6 +134,28 @@
       padding: 0;
     }
 
+    .feedback-form {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .feedback-form textarea {
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    .feedback-form-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .feedback-form-actions button {
+      padding: 6px 14px;
+      font-size: 14px;
+    }
+
     .toolbar {
       display: flex;
       justify-content: flex-end;
@@ -192,22 +214,32 @@
     </div>
     <div id="chat" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions"></div>
 
-    <div class="rating" role="group" aria-label="Rate your experience">
-      Rate your experience:
-      <button class="star" type="button" data-value="1" aria-label="1 star" aria-pressed="false">★</button>
-      <button class="star" type="button" data-value="2" aria-label="2 stars" aria-pressed="false">★</button>
-      <button class="star" type="button" data-value="3" aria-label="3 stars" aria-pressed="false">★</button>
-      <button class="star" type="button" data-value="4" aria-label="4 stars" aria-pressed="false">★</button>
-      <button class="star" type="button" data-value="5" aria-label="5 stars" aria-pressed="false">★</button>
-    </div>
-
     <form id="messageForm" class="composer">
       <input type="text" id="messageInput" placeholder="Type your message..."
         aria-label="Type your message" autocomplete="off">
       <button id="sendButton" type="submit">Send</button>
     </form>
 
-    <button class="feedback-link" id="sendFeedback" type="button">Send us feedback</button>
+    <div id="postChatFeedback" hidden>
+      <div class="rating" role="group" aria-label="Rate your experience">
+        Rate your experience:
+        <button class="star" type="button" data-value="1" aria-label="1 star" aria-pressed="false">★</button>
+        <button class="star" type="button" data-value="2" aria-label="2 stars" aria-pressed="false">★</button>
+        <button class="star" type="button" data-value="3" aria-label="3 stars" aria-pressed="false">★</button>
+        <button class="star" type="button" data-value="4" aria-label="4 stars" aria-pressed="false">★</button>
+        <button class="star" type="button" data-value="5" aria-label="5 stars" aria-pressed="false">★</button>
+      </div>
+
+      <button class="feedback-link" id="sendFeedbackToggle" type="button">Send us feedback</button>
+      <form id="feedbackForm" class="feedback-form" hidden>
+        <textarea id="feedbackText" rows="3" placeholder="Tell us what you think..."
+          aria-label="Your feedback"></textarea>
+        <div class="feedback-form-actions">
+          <button type="submit">Submit</button>
+          <button type="button" id="cancelFeedback">Cancel</button>
+        </div>
+      </form>
+    </div>
   </main>
 
   <script>
@@ -217,7 +249,14 @@
     const sendButton = document.getElementById('sendButton');
     const loadingDiv = document.getElementById('loading');
     const newChatButton = document.getElementById('newChatButton');
+    const postChatFeedback = document.getElementById('postChatFeedback');
+    const sendFeedbackToggle = document.getElementById('sendFeedbackToggle');
+    const feedbackForm = document.getElementById('feedbackForm');
+    const feedbackText = document.getElementById('feedbackText');
+    const cancelFeedbackButton = document.getElementById('cancelFeedback');
     const FUNCTION_URL = 'https://lp-support-rag-api-fzcdgza2avb0ewf6.northcentralus-01.azurewebsites.net/api/Chat';
+    // Staging feedback service. Swap to the production URL once provided.
+    const FEEDBACK_URL = 'https://ltr-code3-feedbackservice-alpha-staging.azurewebsites.net/submit';
 
     // Opaque, server-issued conversation key. Null means "no active chat yet".
     let activeConversationId = null;
@@ -283,6 +322,61 @@
       }
     }
 
+    // Best-effort device/browser context included with feedback submissions.
+    function detectFromApp() {
+      const ua = navigator.userAgent;
+      let browser = 'Unknown';
+      if (ua.includes('Edg/')) browser = 'Edge';
+      else if (ua.includes('Chrome/')) browser = 'Chrome';
+      else if (ua.includes('Firefox/')) browser = 'Firefox';
+      else if (ua.includes('Safari/')) browser = 'Safari';
+
+      let OS = 'Unknown';
+      if (ua.includes('Windows')) OS = 'Windows';
+      else if (ua.includes('Mac OS')) OS = 'macOS';
+      else if (ua.includes('Android')) OS = 'Android';
+      else if (/iPhone|iPad/.test(ua)) OS = 'iOS';
+      else if (ua.includes('Linux')) OS = 'Linux';
+
+      const deviceType = /Mobi|Android|iPhone|iPad/.test(ua) ? 'mobile' : 'desktop';
+      return { deviceType, browser, OS };
+    }
+
+    // Shared helper for all three feedback widgets. Submission failures are
+    // logged but never surfaced to the user, since feedback is non-essential.
+    async function submitFeedback(feature, response) {
+      const payload = {
+        source: 'LP Assistant AI',
+        fromApp: detectFromApp(),
+        feature,
+        response,
+        conversationId: activeConversationId || '',
+        timestamp: new Date().toISOString(),
+        notified: 'no',
+        status: 'active'
+      };
+
+      try {
+        const res = await fetch(FEEDBACK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          console.error('Feedback submission failed with status', res.status);
+        }
+      } catch (error) {
+        console.error('Feedback submission failed:', error);
+      }
+    }
+
+    function resetRatingStars() {
+      document.querySelectorAll('.star').forEach(star => {
+        star.classList.remove('active');
+        star.setAttribute('aria-pressed', 'false');
+      });
+    }
+
     function startNewChat() {
       activeConversationId = null;
       activeChatToken += 1;
@@ -293,6 +387,12 @@
       loadingDiv.hidden = true;
       input.disabled = false;
       sendButton.disabled = false;
+      // Rating/feedback widgets only make sense once there's an active
+      // conversation to attach them to; hide and reset them for the new chat.
+      postChatFeedback.hidden = true;
+      resetRatingStars();
+      feedbackForm.hidden = true;
+      feedbackText.value = '';
       input.focus();
     }
 
@@ -346,6 +446,7 @@
         // Retain the server-issued conversationId so every later turn in this
         // chat round-trips it; this is what keeps backend memory continuous.
         activeConversationId = data.conversationId;
+        postChatFeedback.hidden = false;
 
         const replyText = data.reply.trim() ? data.reply : 'Sorry, I could not get a response.';
         addMessage(replyText, false);
@@ -374,7 +475,7 @@
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = label;
-        button.addEventListener('click', () => handleFeedback(feedbackDiv));
+        button.addEventListener('click', () => handleFeedback(feedbackDiv, label));
         feedbackDiv.appendChild(button);
 
         if (index === 0) feedbackDiv.append(' | ');
@@ -384,8 +485,9 @@
       chatDiv.scrollTop = chatDiv.scrollHeight;
     }
 
-    function handleFeedback(feedbackDiv) {
+    function handleFeedback(feedbackDiv, label) {
       feedbackDiv.textContent = 'Thank you for the feedback. Can I assist you with anything else?';
+      submitFeedback('Answered question?', label);
     }
 
     messageForm.addEventListener('submit', event => {
@@ -401,12 +503,29 @@
           item.classList.toggle('active', isActive);
           item.setAttribute('aria-pressed', String(Number(item.dataset.value) === value));
         });
-        console.log('User rated:', value);
+        submitFeedback('Experience rating', String(value));
       });
     });
 
-    document.getElementById('sendFeedback').addEventListener('click', () => {
-      alert('Thank you! Feedback feature coming soon.');
+    sendFeedbackToggle.addEventListener('click', () => {
+      feedbackForm.hidden = !feedbackForm.hidden;
+      if (!feedbackForm.hidden) feedbackText.focus();
+    });
+
+    cancelFeedbackButton.addEventListener('click', () => {
+      feedbackForm.hidden = true;
+      feedbackText.value = '';
+    });
+
+    feedbackForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const text = feedbackText.value.trim();
+      if (!text) return;
+
+      submitFeedback('General feedback', text);
+      feedbackText.value = '';
+      feedbackForm.hidden = true;
+      alert('Thank you for your feedback!');
     });
 
     newChatButton.addEventListener('click', startNewChat);
