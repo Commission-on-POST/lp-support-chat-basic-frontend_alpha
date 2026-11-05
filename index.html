@@ -9,24 +9,60 @@
       box-sizing: border-box;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     body {
       font-family: Arial, sans-serif;
       max-width: 800px;
+      height: 100vh;
+      height: 100dvh;
       margin: 0 auto;
       padding: 20px;
       background-color: #f9f9f9;
       color: #333;
     }
 
+    main {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+    }
+
+    main > :not(#chat) {
+      flex-shrink: 0;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .header-logo {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
     h1 {
       color: #003366;
+      font-size: 1.75rem;
+      margin: 0;
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     #chat {
       display: flex;
       flex-direction: column;
       border: 1px solid #ccc;
-      height: 450px;
+      flex: 1;
+      min-height: 0;
       overflow-y: auto;
       padding: 15px;
       background: white;
@@ -69,8 +105,7 @@
       margin: 4px 0 12px;
     }
 
-    .feedback button,
-    .feedback-link {
+    .feedback button {
       color: #0056a6;
       text-decoration: underline;
       cursor: pointer;
@@ -108,30 +143,21 @@
     }
 
     .rating {
-      margin: 15px 0;
-      font-size: 1.5em;
+      margin: 12px 0;
+      font-size: 1rem;
     }
 
     .star {
       padding: 0 2px;
       border: 0;
       background: transparent;
-      color: #777;
-      font-size: inherit;
+      color: #ccc;
+      font-size: 1.5rem;
     }
 
-    .star:hover,
-    .star:focus-visible,
     .star.active {
-      color: #8a5b00;
-    }
-
-    .feedback-link {
-      margin-top: 20px;
-      display: inline-block;
-      border: 0;
-      background: transparent;
-      padding: 0;
+      color: #ffdf00;
+      text-shadow: 0 0 1px #805900;
     }
 
     .feedback-form {
@@ -143,7 +169,7 @@
 
     .feedback-form textarea {
       font-family: inherit;
-      resize: vertical;
+      resize: none;
     }
 
     .feedback-form-actions {
@@ -187,8 +213,6 @@
       }
 
       #chat {
-        height: min(60vh, 450px);
-        min-height: 280px;
         padding: 12px;
       }
 
@@ -204,7 +228,11 @@
 </head>
 <body>
   <main>
-    <h1>LP Support Chat</h1>
+    <header class="page-header">
+      <img class="header-logo" src="https://lp.post.ca.gov/Upload/logos/theme_6c8e8542.png"
+        alt="Learning Portal logo" width="56" height="56">
+      <h1>Learning Portal (LP) Assistant AI</h1>
+    </header>
     <div class="toolbar">
       <button id="newChatButton" type="button">New Chat</button>
     </div>
@@ -230,8 +258,8 @@
         <button class="star" type="button" data-value="5" aria-label="5 stars" aria-pressed="false">★</button>
       </div>
 
-      <button class="feedback-link" id="sendFeedbackToggle" type="button">Send us feedback</button>
-      <form id="feedbackForm" class="feedback-form" hidden>
+      <label for="feedbackText">Send us feedback</label>
+      <form id="feedbackForm" class="feedback-form">
         <textarea id="feedbackText" rows="3" placeholder="Tell us what you think..."
           aria-label="Your feedback"></textarea>
         <div class="feedback-form-actions">
@@ -250,7 +278,6 @@
     const loadingDiv = document.getElementById('loading');
     const newChatButton = document.getElementById('newChatButton');
     const postChatFeedback = document.getElementById('postChatFeedback');
-    const sendFeedbackToggle = document.getElementById('sendFeedbackToggle');
     const feedbackForm = document.getElementById('feedbackForm');
     const feedbackText = document.getElementById('feedbackText');
     const cancelFeedbackButton = document.getElementById('cancelFeedback');
@@ -416,7 +443,6 @@
       // conversation to attach them to; hide and reset them for the new chat.
       postChatFeedback.hidden = true;
       resetRatingStars();
-      feedbackForm.hidden = true;
       feedbackText.value = '';
       input.focus();
     }
@@ -532,14 +558,9 @@
       });
     });
 
-    sendFeedbackToggle.addEventListener('click', () => {
-      feedbackForm.hidden = !feedbackForm.hidden;
-      if (!feedbackForm.hidden) feedbackText.focus();
-    });
-
     cancelFeedbackButton.addEventListener('click', () => {
-      feedbackForm.hidden = true;
       feedbackText.value = '';
+      input.focus();
     });
 
     feedbackForm.addEventListener('submit', event => {
@@ -549,7 +570,6 @@
 
       submitFeedback('General feedback', text);
       feedbackText.value = '';
-      feedbackForm.hidden = true;
       alert('Thank you for your feedback!');
     });
 
