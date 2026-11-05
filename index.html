@@ -342,6 +342,31 @@
       return { deviceType, browser, OS };
     }
 
+    // Formats a Date as an ISO 8601 string in US Pacific time (America/Los_Angeles),
+    // e.g. "2026-11-04T09:51:23.505-08:00". Automatically accounts for PST/PDT.
+    function toPacificISOString(date) {
+      const parts = Object.fromEntries(
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/Los_Angeles',
+          hourCycle: 'h23',
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        }).formatToParts(date).map(p => [p.type, p.value])
+      );
+      const ms = String(date.getMilliseconds()).padStart(3, '0');
+
+      // Derive the current Pacific UTC offset by comparing the Pacific wall-clock
+      // (reinterpreted as UTC) against the original instant.
+      const pacificAsUtcMs = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+      const offsetMinutes = Math.round((pacificAsUtcMs - date.getTime()) / 60000);
+      const sign = offsetMinutes <= 0 ? '-' : '+';
+      const abs = Math.abs(offsetMinutes);
+      const offH = String(Math.floor(abs / 60)).padStart(2, '0');
+      const offM = String(abs % 60).padStart(2, '0');
+
+      return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}.${ms}${sign}${offH}:${offM}`;
+    }
+
     // Shared helper for all three feedback widgets. Submission failures are
     // logged but never surfaced to the user, since feedback is non-essential.
     async function submitFeedback(feature, response) {
@@ -351,7 +376,7 @@
         feature,
         response,
         conversationId: activeConversationId || '',
-        timestamp: new Date().toISOString(),
+        timestamp: toPacificISOString(new Date()),
         notified: 'no',
         status: 'active'
       };
