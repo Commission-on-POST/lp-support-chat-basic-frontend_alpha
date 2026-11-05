@@ -20,8 +20,8 @@
       height: 100dvh;
       margin: 0 auto;
       padding: 20px;
-      background-color: #f9f9f9;
-      color: #333;
+      background-color: #001f3f;
+      color: #f5f7fa;
     }
 
     main {
@@ -50,7 +50,7 @@
     }
 
     h1 {
-      color: #003366;
+      color: #f5f7fa;
       font-size: 1.75rem;
       margin: 0;
       min-width: 0;
@@ -237,7 +237,7 @@
       <button id="newChatButton" type="button">New Chat</button>
     </div>
     <div id="loading" role="status" aria-live="polite" hidden
-      style="color: #666; font-style: italic; margin: 8px 0;">
+      style="color: #ccc; font-style: italic; margin: 8px 0;">
       Thinking...
     </div>
     <div id="chat" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions"></div>
@@ -537,7 +537,7 @@
     }
 
     function handleFeedback(feedbackDiv, label) {
-      feedbackDiv.textContent = 'Thank you for the feedback. Can I assist you with anything else?';
+      feedbackDiv.textContent = 'Thank you for the feedback.';
       submitFeedback('Answered question?', label);
     }
 
