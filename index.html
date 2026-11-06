@@ -36,10 +36,11 @@
     }
 
     .page-header {
-      display: flex;
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr) auto;
       align-items: center;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
 
     .header-logo {
@@ -83,6 +84,10 @@
 
     .message a {
       overflow-wrap: anywhere;
+    }
+
+    .message-sources {
+      font-size: calc(1em - 2pt);
     }
 
     .user {
@@ -182,12 +187,6 @@
       font-size: 14px;
     }
 
-    .toolbar {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 10px;
-    }
-
     #newChatButton {
       background-color: #fff;
       border: 1px solid #0056a6;
@@ -195,6 +194,7 @@
       border-radius: 6px;
       padding: 8px 14px;
       font-size: 14px;
+      white-space: nowrap;
     }
 
     #newChatButton:hover,
@@ -210,6 +210,16 @@
     @media (max-width: 480px) {
       body {
         padding: 16px;
+      }
+
+      .page-header {
+        grid-template-columns: 56px minmax(0, 1fr);
+        row-gap: 4px;
+      }
+
+      #newChatButton {
+        grid-column: 2;
+        justify-self: end;
       }
 
       #chat {
@@ -232,10 +242,8 @@
       <img class="header-logo" src="https://lp.post.ca.gov/Upload/logos/theme_6c8e8542.png"
         alt="Learning Portal logo" width="56" height="56">
       <h1>Learning Portal (LP) Assistant AI</h1>
-    </header>
-    <div class="toolbar">
       <button id="newChatButton" type="button">New Chat</button>
-    </div>
+    </header>
     <div id="loading" role="status" aria-live="polite" hidden
       style="color: #ccc; font-style: italic; margin: 8px 0;">
       Thinking...
@@ -334,7 +342,20 @@
     function addMessage(text, isUser) {
       const msgDiv = document.createElement('div');
       msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-      appendFormattedText(msgDiv, String(text));
+      const messageText = String(text);
+      const sourcePattern = /^Sources:[ \t]*\r?\n(?:[ \t]*\d+\.[ \t]+[^\r\n]+(?:\r?\n|$))+/gim;
+      let lastIndex = 0;
+
+      for (const match of isUser ? [] : messageText.matchAll(sourcePattern)) {
+        appendFormattedText(msgDiv, messageText.slice(lastIndex, match.index));
+        const sources = document.createElement('span');
+        sources.className = 'message-sources';
+        appendFormattedText(sources, match[0]);
+        msgDiv.appendChild(sources);
+        lastIndex = match.index + match[0].length;
+      }
+
+      appendFormattedText(msgDiv, messageText.slice(lastIndex));
       chatDiv.appendChild(msgDiv);
       chatDiv.scrollTop = chatDiv.scrollHeight;
     }
