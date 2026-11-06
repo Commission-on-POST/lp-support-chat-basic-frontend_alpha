@@ -147,6 +147,17 @@
       cursor: wait;
     }
 
+    #sendButton {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .rating {
       margin: 12px 0;
       font-size: 1rem;
@@ -168,23 +179,30 @@
     .feedback-form {
       margin-top: 10px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 8px;
     }
 
     .feedback-form textarea {
+      flex: 1;
+      min-width: 0;
       font-family: inherit;
       resize: none;
     }
 
-    .feedback-form-actions {
-      display: flex;
-      gap: 10px;
+    .feedback-submit {
+      flex-shrink: 0;
+      padding: 8px 14px;
+      border: 1px solid #999;
+      border-radius: 4px;
+      background-color: #d1d1d1;
+      color: #222;
+      font-size: 14px;
     }
 
-    .feedback-form-actions button {
-      padding: 6px 14px;
-      font-size: 14px;
+    .feedback-submit:hover,
+    .feedback-submit:focus-visible {
+      background-color: #bcbcbc;
     }
 
     #newChatButton {
@@ -253,7 +271,15 @@
     <form id="messageForm" class="composer">
       <input type="text" id="messageInput" placeholder="Type your message..."
         aria-label="Type your message" autocomplete="off">
-      <button id="sendButton" type="submit">Send</button>
+      <button id="sendButton" type="submit" aria-label="Submit message" title="Submit message">
+        <svg class="lucide lucide-arrow-up" xmlns="http://www.w3.org/2000/svg"
+          width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"
+          aria-hidden="true" focusable="false">
+          <path d="m5 12 7-7 7 7" />
+          <path d="M12 19V5" />
+        </svg>
+      </button>
     </form>
 
     <div id="postChatFeedback" hidden>
@@ -270,10 +296,7 @@
       <form id="feedbackForm" class="feedback-form">
         <textarea id="feedbackText" rows="3" placeholder="Tell us what you think..."
           aria-label="Your feedback"></textarea>
-        <div class="feedback-form-actions">
-          <button type="submit">Submit</button>
-          <button type="button" id="cancelFeedback">Cancel</button>
-        </div>
+        <button type="submit" class="feedback-submit">Send</button>
       </form>
     </div>
   </main>
@@ -288,7 +311,6 @@
     const postChatFeedback = document.getElementById('postChatFeedback');
     const feedbackForm = document.getElementById('feedbackForm');
     const feedbackText = document.getElementById('feedbackText');
-    const cancelFeedbackButton = document.getElementById('cancelFeedback');
     const FUNCTION_URL = 'https://lp-support-rag-api-fzcdgza2avb0ewf6.northcentralus-01.azurewebsites.net/api/Chat';
     // Staging feedback service. Swap to the production URL once provided.
     const FEEDBACK_URL = 'https://ltr-code3-feedbackservice-alpha-staging.azurewebsites.net/submit';
@@ -577,11 +599,6 @@
         });
         submitFeedback('Experience rating', String(value));
       });
-    });
-
-    cancelFeedbackButton.addEventListener('click', () => {
-      feedbackText.value = '';
-      input.focus();
     });
 
     feedbackForm.addEventListener('submit', event => {
