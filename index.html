@@ -158,6 +158,11 @@
       justify-content: center;
     }
 
+    #postChatFeedback {
+      margin-top: 12px;
+      border-top: 1px solid #ffffff33;
+    }
+
     .rating {
       margin: 12px 0;
       font-size: 1rem;
@@ -186,8 +191,20 @@
     .feedback-form textarea {
       flex: 1;
       min-width: 0;
+      padding: 8px;
+      border: 1px solid #9ca3af;
+      border-radius: 4px;
+      background-color: #e5e7eb;
+      color: #333;
       font-family: inherit;
+      font-size: 14px;
+      line-height: 1.4;
       resize: none;
+    }
+
+    .feedback-form textarea::placeholder {
+      color: #5f6368;
+      opacity: 1;
     }
 
     .feedback-submit {
@@ -292,11 +309,10 @@
         <button class="star" type="button" data-value="5" aria-label="5 stars" aria-pressed="false">★</button>
       </div>
 
-      <label for="feedbackText">Send us feedback</label>
       <form id="feedbackForm" class="feedback-form">
-        <textarea id="feedbackText" rows="3" placeholder="Tell us what you think..."
+        <textarea id="feedbackText" rows="2" placeholder="How was your experience?"
           aria-label="Your feedback"></textarea>
-        <button type="submit" class="feedback-submit">Send</button>
+        <button type="submit" class="feedback-submit">Send Feedback</button>
       </form>
     </div>
   </main>
@@ -486,6 +502,7 @@
       // conversation to attach them to; hide and reset them for the new chat.
       postChatFeedback.hidden = true;
       resetRatingStars();
+      feedbackForm.hidden = false;
       feedbackText.value = '';
       input.focus();
     }
@@ -505,6 +522,9 @@
       sendButton.disabled = true;
       loadingDiv.hidden = false;
 
+      const requestController = new AbortController();
+      const requestTimeout = setTimeout(() => requestController.abort(), 60000);
+
       try {
         const body = activeConversationId
           ? { message, conversationId: activeConversationId }
@@ -513,7 +533,8 @@
         const response = await fetch(FUNCTION_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
+          signal: requestController.signal
         });
 
         const data = await readResponseBody(response);
@@ -547,10 +568,14 @@
         addFeedbackPrompt();
       } catch (error) {
         if (chatToken === activeChatToken) {
-          addMessage('Sorry, the chatbot could not process your request. Please try again later.', false);
+          const errorMessage = requestController.signal.aborted
+            ? 'The response is taking too long. Please try again.'
+            : 'Sorry, the chatbot could not process your request. Please try again later.';
+          addMessage(errorMessage, false);
         }
         console.error('Chat request failed:', error);
       } finally {
+        clearTimeout(requestTimeout);
         if (chatToken === activeChatToken) {
           loadingDiv.hidden = true;
           input.disabled = false;
@@ -609,6 +634,8 @@
       submitFeedback('General feedback', text);
       feedbackText.value = '';
       alert('Thank you for your feedback!');
+      feedbackForm.hidden = true;
+      input.focus();
     });
 
     newChatButton.addEventListener('click', startNewChat);
