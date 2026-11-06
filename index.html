@@ -561,7 +561,11 @@
 
         // Retain the server-issued conversationId so every later turn in this
         // chat round-trips it; this is what keeps backend memory continuous.
+        const isFirstResponse = !activeConversationId;
         activeConversationId = data.conversationId;
+        if (isFirstResponse) {
+          submitFeedback('Conversation started', 'Started');
+        }
         postChatFeedback.hidden = false;
 
         const replyText = data.reply.trim() ? data.reply : 'Sorry, I could not get a response.';
