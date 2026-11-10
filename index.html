@@ -511,6 +511,8 @@
       const message = input.value.trim();
       if (!message || sendButton.disabled) return;
 
+      chatDiv.querySelectorAll('.feedback').forEach(element => element.remove());
+
       // Capture which chat this request belongs to. If "New Chat" is clicked
       // before the response arrives, this token will no longer match the
       // active one and the late response must not overwrite the new chat.
@@ -569,7 +571,9 @@
 
         const replyText = data.reply.trim() ? data.reply : 'Sorry, I could not get a response.';
         addMessage(replyText, false);
-        addFeedbackPrompt();
+        if (shouldAskResolutionFeedback(replyText)) {
+          addFeedbackPrompt();
+        }
       } catch (error) {
         if (chatToken === activeChatToken) {
           const errorMessage = requestController.signal.aborted
@@ -587,6 +591,22 @@
           input.focus();
         }
       }
+    }
+
+    function shouldAskResolutionFeedback(reply) {
+      const answer = String(reply || '')
+        .split(/\r?\n\s*(?:Sources|References):/i)[0]
+        .replace(/https?:\/\/[^\s]+/gi, '')
+        .replace(/\[\d+\]/g, '')
+        .replace(/\*\*/g, '')
+        .trim();
+
+      if (!answer || answer.includes('?')) return false;
+      if (/^(?:hi|hello|hey|thanks|thank you|you['\u2019]re welcome|i understand|got it)[.!\s]*$/i.test(answer)) return false;
+      if (/\bi\s+(?:cannot|can['\u2019]t|am unable to|do not have|don['\u2019]t have|do not know|don['\u2019]t know)\b|\bi['\u2019]m unable to\b/i.test(answer)) return false;
+      if (/\b(?:could not get a response|could not process your request|please try again|tell me|please (?:specify|clarify|confirm|provide|share)|share more details|provide more information|let me know (?:which|whether|what))\b/i.test(answer)) return false;
+
+      return answer.split(/\s+/).length >= 8;
     }
 
     function addFeedbackPrompt() {
