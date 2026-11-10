@@ -238,6 +238,37 @@
       background-color: #eef5ff;
     }
 
+    #newChatButton.needs-attention {
+      border-color: #ffdf00;
+      box-shadow: 0 0 0 2px #ffdf00, 0 0 8px #ffdf0080;
+      animation: new-chat-glow 2s ease-in-out infinite;
+    }
+
+    #newChatButton.needs-attention:focus-visible {
+      outline-color: #ffdf00;
+    }
+
+    .composer.chat-complete input,
+    .composer.chat-complete button {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    @keyframes new-chat-glow {
+      0%, 100% {
+        box-shadow: 0 0 0 2px #ffdf00, 0 0 6px #ffdf0060;
+      }
+      50% {
+        box-shadow: 0 0 0 2px #ffdf00, 0 0 18px #ffdf00b3;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #newChatButton.needs-attention {
+        animation: none;
+      }
+    }
+
     :focus-visible {
       outline: 3px solid #005fcc;
       outline-offset: 2px;
@@ -337,6 +368,7 @@
     // Identifies the current chat thread so a late response from a chat that
     // was replaced by "New Chat" cannot overwrite the active transcript/ID.
     let activeChatToken = 0;
+    let isChatComplete = false;
 
     function appendFormattedText(parent, text) {
       const linkPattern = /https?:\/\/[^\s<>"']+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/gi;
@@ -491,6 +523,9 @@
     function startNewChat() {
       activeConversationId = null;
       activeChatToken += 1;
+      isChatComplete = false;
+      messageForm.classList.remove('chat-complete');
+      newChatButton.classList.remove('needs-attention');
       chatDiv.innerHTML = '';
       addMessage('Hello! How can I help you with the Learning Portal today?', false);
       input.value = '';
@@ -509,7 +544,7 @@
 
     async function sendMessage() {
       const message = input.value.trim();
-      if (!message || sendButton.disabled) return;
+      if (!message || sendButton.disabled || isChatComplete) return;
 
       chatDiv.querySelectorAll('.feedback').forEach(element => element.remove());
 
@@ -586,9 +621,9 @@
         clearTimeout(requestTimeout);
         if (chatToken === activeChatToken) {
           loadingDiv.hidden = true;
-          input.disabled = false;
-          sendButton.disabled = false;
-          input.focus();
+          input.disabled = isChatComplete;
+          sendButton.disabled = isChatComplete;
+          if (!isChatComplete) input.focus();
         }
       }
     }
@@ -630,6 +665,12 @@
 
     function handleFeedback(feedbackDiv, label) {
       feedbackDiv.textContent = 'Thank you for the feedback.';
+      isChatComplete = true;
+      input.disabled = true;
+      sendButton.disabled = true;
+      messageForm.classList.add('chat-complete');
+      newChatButton.classList.add('needs-attention');
+      newChatButton.focus();
       submitFeedback('Answered question?', label);
     }
 
